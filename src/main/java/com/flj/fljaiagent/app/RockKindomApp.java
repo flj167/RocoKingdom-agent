@@ -5,7 +5,9 @@ import com.flj.fljaiagent.advisor.MyAdvisor;
 import com.flj.fljaiagent.chatmemory.FileBasedChatMemory;
 import com.flj.fljaiagent.chatmemory.MySQLChatMemory;
 import com.flj.fljaiagent.mapper.ChatMemoryMessageMapper;
+import com.flj.fljaiagent.rag.QueryRewriter;
 import com.flj.fljaiagent.rag.RocoAppRagCloudAdvisorConfig;
+import com.flj.fljaiagent.rag.RocoAppRagCustomAdvisorFactory;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -101,16 +103,21 @@ public class RockKindomApp {
 
     @Resource
     private VectorStore rocoAppVectorStore;
+    @Resource
+    private QueryRewriter queryRewriter;
     //AI问答，启用RAG搜索增强生成功能
     public String doChatWithRag(String message, String chatId) {
+        //使用查询重写器
+        String rewritedMessage = queryRewriter.doQueryRewrite(message);
         ChatResponse chatResponse = chatClient
                 .prompt()
-                .user(message)
+                .user(rewritedMessage)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))//设置顾问参数
 //                .advisors(new MyAdvisor())//开启日志输出
 //                .advisors(new QuestionAnswerAdvisor(rocoAppVectorStore))//启用RAG搜索增强生成功能
-                .advisors(rocoAppRagCloudAdvisor) //启用云知识库RAG增强生成功能
+//                .advisors(rocoAppRagCloudAdvisor) //启用云知识库RAG增强生成功能
+                .advisors(RocoAppRagCustomAdvisorFactory.createRocoAppRagCustomAdvisor(rocoAppVectorStore,"异色"))//使用配置了自定义文档搜索器的拦截器,查询玩家目标是pvp的文档
                 .call()
                 .chatResponse();
         //打印AI输出结果

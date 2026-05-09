@@ -49,7 +49,9 @@ class RockKindomAppTest {
     @Test
     void doChatWithRag() {
             String chatId = UUID.randomUUID().toString();
-            String message = "新手有什么容易抓，还强势的PVP精灵推荐";
+//            String message = "新手有什么容易抓，还强势的PVP精灵推荐";
+//            String message = "我最近刚开始玩洛克王国手游，有啥简单有强势的精灵推荐一下吗？";
+        String message = "这个游戏满级是几级？从1级升到满级大概需要多久？";
             String answer =  rockKindomApp.doChatWithRag(message, chatId);
             Assertions.assertNotNull(answer);
     }
