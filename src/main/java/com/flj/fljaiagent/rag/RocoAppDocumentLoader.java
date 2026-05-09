@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 文档加载器
  * 读取知识库文档并转换成Document列表
  */
 @Slf4j
@@ -32,12 +33,16 @@ public class RocoAppDocumentLoader {
                 Resource[] resources = resourcePatternResolver.getResources("classpath:document/*.md");
                 for (Resource resource : resources) {
                     String filename = resource.getFilename();
+                    //从文档名称中读取玩家目标元信息；洛克王国手游常见问题解答-pve篇.md；洛克王国手游常见问题解答-异色篇.md
+                    //读取-到篇之间
+                    String target = filename.split("-")[1].split("篇")[0];
                     //创建文件读取器配置
                     MarkdownDocumentReaderConfig config = MarkdownDocumentReaderConfig.builder()
                             .withHorizontalRuleCreateDocument(true)
                             .withIncludeCodeBlock(false)//不包括代码块
                             .withIncludeBlockquote(false)//不包括块引号
-                            .withAdditionalMetadata("filename", filename)//添加标签
+                            .withAdditionalMetadata("filename", filename)//添加文件名元信息
+                            .withAdditionalMetadata("target",target)//添加玩家目标元信息
                             .build();
 
                     MarkdownDocumentReader reader = new MarkdownDocumentReader(resource, config);

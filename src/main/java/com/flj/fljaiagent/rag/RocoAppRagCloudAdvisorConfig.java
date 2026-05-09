@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * 云知识库RAG配置类
+ * 能创建云知识库RAG顾问
  */
 @Slf4j
 @Configuration

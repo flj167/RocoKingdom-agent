@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- *向量存储配置类
+ * 向量存储配置类
+ * 能创建向量存储
  */
 @Configuration
 public class RocoAppVectorStoreConfig {
