@@ -1,7 +1,8 @@
 ### CUSTOM ###
 application-local.yml
-### AI本地聊天记录 ###
-chat-memory/
+### AI本地聊天记录 ,工具调用生成文档###
+tmp/chat-memory/
+tmp/file/
 
 HELP.md
 target/

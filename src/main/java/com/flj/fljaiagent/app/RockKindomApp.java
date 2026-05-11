@@ -18,6 +18,7 @@ import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -118,6 +119,27 @@ public class RockKindomApp {
 //                .advisors(new QuestionAnswerAdvisor(rocoAppVectorStore))//启用RAG搜索增强生成功能
 //                .advisors(rocoAppRagCloudAdvisor) //启用云知识库RAG增强生成功能
                 .advisors(RocoAppRagCustomAdvisorFactory.createRocoAppRagCustomAdvisor(rocoAppVectorStore,"异色"))//使用配置了自定义文档搜索器的拦截器,查询玩家目标是pvp的文档
+                .call()
+                .chatResponse();
+        //打印AI输出结果
+        String content=chatResponse.getResult().getOutput().getText();
+        log.info("AI回复: {}", content);
+        return content;
+    }
+
+    @Resource
+    private ToolCallback[] allTools;
+    //启用工具调用
+    public String doChatWithTools(String message, String chatId) {
+        //使用查询重写器
+        String rewritedMessage = queryRewriter.doQueryRewrite(message);
+        ChatResponse chatResponse = chatClient
+                .prompt()
+                .user(rewritedMessage)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))//设置顾问参数
+                .advisors(new MyAdvisor())//输入日志
+                .tools(allTools)//使用所有工具
                 .call()
                 .chatResponse();
         //打印AI输出结果
