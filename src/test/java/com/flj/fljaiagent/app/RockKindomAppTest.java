@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.tool.ToolCallback;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
@@ -58,18 +59,20 @@ class RockKindomAppTest {
 
     @Test
     void doChatWithTools() {
+        // 测试获取当前系统时间
+        testMessage("现在几点了");
         // 测试联网搜索问题的答案
         testMessage("洛克王国手游中，最新上线的宠物是哪只？");
 
-        // 测试网页抓取：恋爱案例分析
-        testMessage("你看看这个网址（https://news.17173.com/z/lkwgsj2024/content/11142025/090429583.shtml），告诉我洛克王国手游正版下载安装渠道");
+        // 测试网页抓取：
+        testMessage("从https://news.17173.com/z/lkwgsj2024/content/11142025/090429583.shtml这个网址中提取洛克王国手游的预约奖励内容和领取方式。");
 
         // 测试资源下载：图片下载
         testMessage("直接下载一张适合做手机壁纸的洛克王国精灵'卷毛鸭'图片为文件");
 
         // 测试终端操作：执行代码
         testMessage("执行 Python3 脚本来生成数据分析报告");
-
+//
         // 测试文件操作：保存用户档案
         testMessage("保存我的问答结果为文件");
 
@@ -82,5 +85,4 @@ class RockKindomAppTest {
         String answer = rockKindomApp.doChatWithTools(message, chatId);
         Assertions.assertNotNull(answer);
     }
-
 }

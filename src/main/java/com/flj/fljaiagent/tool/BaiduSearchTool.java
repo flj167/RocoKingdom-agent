@@ -26,13 +26,24 @@ import java.util.List;
 @Component
 public class BaiduSearchTool {
 
-    @Value("${search-api.api-key:}")
-    private String apiKey;
+    private final String apiKey;
 
     private static final String BAIDU_SEARCH_URL = "https://www.searchapi.io/api/v1/search";
-    private final OkHttpClient httpClient = new OkHttpClient();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OkHttpClient httpClient ;
+    private final ObjectMapper objectMapper ;
 
+    public BaiduSearchTool(@Value("${search-api.api-key}") String apiKey) {
+        // 启动时强制校验APIKey，为空直接抛出异常，避免运行时401
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalArgumentException("SearchAPI API Key 不能为空，请检查配置文件");
+        }
+        this.apiKey = apiKey;
+        this.httpClient = new OkHttpClient();
+        this.objectMapper = new ObjectMapper();
+        log.info("BaiduSearchTool 初始化成功，APIKey: {}", apiKey.substring(0, 5) + "***");
+    }
+
+    //百度搜索
     @Tool(description = "Search the webpage on Baidu and return relevant search results")
     public SearchResult search(
             @ToolParam(description = "Search for keywords, support Chinese") String query,
@@ -84,7 +95,6 @@ public class BaiduSearchTool {
             return response.body() != null ? response.body().string() : "{}";
         }
     }
-
     // ==================== 结果 DTO ====================
 
     @Data

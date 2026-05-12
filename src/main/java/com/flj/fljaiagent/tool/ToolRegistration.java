@@ -18,7 +18,7 @@ public class ToolRegistration {
     @Bean
     public ToolCallback[] allTools() {
         FileOperationTool fileOperationTool = new FileOperationTool();
-        BaiduSearchTool webSearchTool = new BaiduSearchTool();
+        BaiduSearchTool webSearchTool = new BaiduSearchTool(searchApiKey);
         JoupWebScrapingTool webScrapingTool = new JoupWebScrapingTool();
         ResourceDownloadTool resourceDownloadTool = new ResourceDownloadTool();
         TerminalOperationTool terminalOperationTool = new TerminalOperationTool();
