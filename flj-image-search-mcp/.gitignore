@@ -1,11 +1,7 @@
 ### CUSTOM ###
-application-local.yml
 application-see.yml
 application-stdio.yml
 application.yml
-### AI本地聊天记录 ,工具调用生成文档###
-tmp/chat-memory/
-tmp/file/
 
 HELP.md
 target/
@@ -40,4 +36,3 @@ build/
 
 ### VS Code ###
 .vscode/
-chat-momery/
