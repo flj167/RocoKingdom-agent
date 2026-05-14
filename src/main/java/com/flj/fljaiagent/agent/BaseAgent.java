@@ -1,5 +1,6 @@
 package com.flj.fljaiagent.agent;
 
+import com.flj.fljaiagent.exception.AgentException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.internal.StringUtil;
@@ -41,10 +42,10 @@ public abstract class BaseAgent {
     public String run(String userPrompt){
         //参数校验
         if(StringUtil.isBlank(userPrompt)){
-            throw new RuntimeException("Can not run agent with the empty user prompt");
+            throw new AgentException("Can not run agent with the empty user prompt");
         }
         if(state!=AgentState.IDLE){
-            throw new RuntimeException("Agent is not idle, can not run,agent state:"+state);
+            throw new AgentException("Agent is not idle, can not run,agent state:"+state);
         }
         //开始运行，更新属性
         state=AgentState.RUNNING;
@@ -56,7 +57,7 @@ public abstract class BaseAgent {
             int i=0;
             while(i<maxStep&&state!=AgentState.FINISHED){
                 int stepNum=i+1;//从1开始记
-                log.info("now Step {}/agent {}",stepNum,maxStep);//循环进度
+                log.info("now Step {}/maxSteps {}",stepNum,maxStep);//循环进度
                 String stepResult = step();
                 //记录执行结果
                 String result="Step "+stepNum+":"+stepResult;
