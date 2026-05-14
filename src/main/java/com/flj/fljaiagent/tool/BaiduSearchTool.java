@@ -23,7 +23,6 @@ import java.util.List;
  * 百度网页搜索工具 - 用于 AI Tool Calling
  */
 @Slf4j
-@Component
 public class BaiduSearchTool {
 
     private final String apiKey;

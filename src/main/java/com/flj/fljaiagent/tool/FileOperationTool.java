@@ -3,6 +3,7 @@ package com.flj.fljaiagent.tool;
 import cn.hutool.core.io.FileUtil;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.stereotype.Component;
 
 
 /**

@@ -4,11 +4,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
- * 用jsop进行网页查询
+ * 用jsop进行网页爬取
  */
 public class JoupWebScrapingTool {
 

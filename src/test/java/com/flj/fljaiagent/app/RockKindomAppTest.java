@@ -59,25 +59,30 @@ class RockKindomAppTest {
 
     @Test
     void doChatWithTools() {
-        // 测试获取当前系统时间
-        testMessage("现在几点了");
-        // 测试联网搜索问题的答案
-        testMessage("洛克王国手游中，最新上线的宠物是哪只？");
-
-        // 测试网页抓取：
-        testMessage("从https://news.17173.com/z/lkwgsj2024/content/11142025/090429583.shtml这个网址中提取洛克王国手游的预约奖励内容和领取方式。");
-
-        // 测试资源下载：图片下载
-        testMessage("直接下载一张适合做手机壁纸的洛克王国精灵'卷毛鸭'图片为文件");
-
-        // 测试终端操作：执行代码
-        testMessage("执行 Python3 脚本来生成数据分析报告");
+//        testMessage("洛克王国手游最新版本中，火系精灵「烈火战神」的推荐技能搭配是什么？");
+//        testMessage("搜索洛克王国手游中火系精灵「烈火战神」的技能表，给我前5条结果的标题和链接");
 //
-        // 测试文件操作：保存用户档案
-        testMessage("保存我的问答结果为文件");
+//        testMessage("将以下内容保存为文件 'top_ice_spirits.txt'：冰系精灵排行榜第一名：雪影娃娃，第二名：冰龙王，第三名：寒冰皇");
+//        testMessage("读取文件 'top_ice_spirits.txt' 的内容并展示给我");
+//
+//        testMessage("抓取百度百科中「洛克王国」词条的网页内容（链接：https://baike.baidu.com/item/%E6%B4%9B%E5%85%8B%E7%8E%8B%E5%9B%BD），并告诉我页面标题");
+//
+//        testMessage("生成一份 PDF 攻略，文件名为 'newbie_guide.pdf'，内容是：洛克王国手游新手必做任务：1.完成主线第一章；2.捕捉第一只精灵；3.开启每日签到。");
+//
+//        testMessage("下载洛克王国手游中宠物'卷毛鸭'的壁纸");
+//
+//        testMessage("在我的电脑上创建一个名为 'RockKingdom' 的文件夹，路径放在 D 盘根目录，使用终端命令完成");
+//
+//        testMessage("不需要做任何事，直接结束任务");
 
-        // 测试 PDF 生成
-        testMessage("生成一份‘新手必抓精灵’PDF，包含角色最低抓取等级、抓取方法");
+        //综合测试
+        testMessage("请协助整理洛克王国手游「风眠省」区域的草系精灵完整攻略。具体任务顺序如下：\"\n" +
+                "    + \"1. 使用搜索引擎查询“洛克王国手游 风眠省 草系精灵 刷新点”，将前5条结果的标题与链接写入文件 fengmian_province_search.txt；\"\n" +
+                "    + \"2. 从上述搜索结果中提炼可靠的草系精灵名单、出现位置与捕捉条件，整理为结构化文本，保存为 fengmian_province_guide.txt；\"\n" +
+                "    + \"3. 查找并抓取官方Wiki中风眠省背景故事页面（若不确定URL，可通过搜索“洛克王国 风眠省 背景”获取），提取其核心文本内容，生成PDF文档 fengmian_province.pdf；\"\n" +
+                "    + \"4. 搜索一张风眠省场景的高清壁纸，下载并保存为 fengmian_province_wallpaper.jpg；\"\n" +
+                "    + \"5. 使用终端命令在D盘根目录创建文件夹 RockStrategy，然后将步骤2、3、4中生成的三个文件移动至该文件夹内；\"\n" +
+                "    + \"6. 全部任务完成后结束本次会话。");
     }
 
     private void testMessage(String message) {

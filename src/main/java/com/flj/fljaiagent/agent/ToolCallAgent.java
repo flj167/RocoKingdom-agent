@@ -113,6 +113,13 @@ public class ToolCallAgent extends ReActAgent {
         String results = toolResponseMessage.getResponses().stream()
                 .map(response -> "工具 " + response.name() + "完成了任务，结果是：" + response.responseData())
                 .collect(Collectors.joining("\n"));
+        //判断是否调用了终止工具
+        boolean terminateToolCalled = toolResponseMessage.getResponses().stream()
+                .anyMatch(response -> response.name().equals("doTerminate"));
+        //如果执行了终止方法
+        if(terminateToolCalled){
+            setState(AgentState.FINISHED);//已完成
+        }
         log.info(results);
         return results;
     }
