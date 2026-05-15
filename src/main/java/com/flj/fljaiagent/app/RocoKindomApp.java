@@ -3,19 +3,13 @@ package com.flj.fljaiagent.app;
 
 import com.flj.fljaiagent.advisor.MyAdvisor;
 import com.flj.fljaiagent.chatmemory.FileBasedChatMemory;
-import com.flj.fljaiagent.chatmemory.MySQLChatMemory;
-import com.flj.fljaiagent.mapper.ChatMemoryMessageMapper;
 import com.flj.fljaiagent.rag.QueryRewriter;
-import com.flj.fljaiagent.rag.RocoAppRagCloudAdvisorConfig;
 import com.flj.fljaiagent.rag.RocoAppRagCustomAdvisorFactory;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.tool.ToolCallback;
@@ -30,7 +24,7 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 
 @Slf4j
 @Component
-public class RockKindomApp {
+public class RocoKindomApp {
 
     private final ChatClient chatClient;
 
@@ -89,7 +83,7 @@ public class RockKindomApp {
     @Autowired
     private Advisor rocoAppRagCloudAdvisor;
 
-    public RockKindomApp(ChatModel dashscopeModel) {
+    public RocoKindomApp(ChatModel dashscopeModel) {
         //创建基于内存的记忆
 //        InMemoryChatMemory chatMemory = new InMemoryChatMemory();
 //        创建基于文件的记忆

@@ -1,23 +1,17 @@
 package com.flj.fljaiagent.app;
 
-import cn.hutool.core.util.RandomUtil;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.ai.tool.ToolCallback;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class RockKindomAppTest {
+class RocoKindomAppTest {
 
     @Resource
-    private RockKindomApp rockKindomApp;
+    private RocoKindomApp rocoKindomApp;
 
     @Test
     void testChat() {
@@ -25,15 +19,15 @@ class RockKindomAppTest {
         String chatId = UUID.randomUUID().toString();
         //第一轮对话
         String message = "我现在是新手小白，等级10级，想抓几只速度快的宠物开图，有什么建议吗？";
-        String answer = rockKindomApp.doChat(message, chatId);
+        String answer = rocoKindomApp.doChat(message, chatId);
         Assertions.assertNotNull(answer);
         //第二轮
         message = "请你在这里面选出火属性的精灵";
-        answer = rockKindomApp.doChat(message, chatId);
+        answer = rocoKindomApp.doChat(message, chatId);
         Assertions.assertNotNull(answer);
         //第三轮
         message = "我这个人物等级可以提升吗，从我的等级升级到满级大概需要多久？";
-        answer = rockKindomApp.doChat(message, chatId);
+        answer = rocoKindomApp.doChat(message, chatId);
         Assertions.assertNotNull(answer);
     }
 
@@ -43,7 +37,7 @@ class RockKindomAppTest {
         String chatId = UUID.randomUUID().toString();
         //第一轮对话
         String message = "我现在是新手小白，等级10级，大约多久能升到满级？新手最强宠物是谁？";
-        RockKindomApp.RockReport rockReport = rockKindomApp.doChatWithReport(message, chatId);
+        RocoKindomApp.RockReport rockReport = rocoKindomApp.doChatWithReport(message, chatId);
         Assertions.assertNotNull(rockReport);
     }
 
@@ -53,7 +47,7 @@ class RockKindomAppTest {
 //            String message = "新手有什么容易抓，还强势的PVP精灵推荐";
 //            String message = "我最近刚开始玩洛克王国手游，有啥简单有强势的精灵推荐一下吗？";
         String message = "这个游戏满级是几级？从1级升到满级大概需要多久？";
-            String answer =  rockKindomApp.doChatWithRag(message, chatId);
+            String answer =  rocoKindomApp.doChatWithRag(message, chatId);
             Assertions.assertNotNull(answer);
     }
 
@@ -87,7 +81,7 @@ class RockKindomAppTest {
 
     private void testMessage(String message) {
         String chatId = UUID.randomUUID().toString();
-        String answer = rockKindomApp.doChatWithTools(message, chatId);
+        String answer = rocoKindomApp.doChatWithTools(message, chatId);
         Assertions.assertNotNull(answer);
     }
 }
