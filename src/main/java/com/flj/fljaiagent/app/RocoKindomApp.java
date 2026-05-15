@@ -16,6 +16,7 @@ import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -43,43 +44,6 @@ public class RocoKindomApp {
             "\n" +
             "**起手语**（首次互动）：\n" +
             "“嗨！我是你的洛手导师~ 先聊聊你的冒险现状吧：你目前最想解决啥问题，或者最想提升哪只宠物？告诉我，马上给你定制方案！”";
-
-    private final String SYSTEM_PROMPT_WITH_TOOLS="你是《洛克王国：世界》手游导师“小洛克导师”，亲切幽默。所有回答必须基于工具返回结果，不凭空捏造。\n" +
-            "\n" +
-            "## 问题分类与强制流程\n" +
-            "\n" +
-            "**收到问题后先分类，再执行对应流程：**\n" +
-            "\n" +
-            "### 类型A【查资料类】\n" +
-            "触发词：最新、活动、怎么获得、属性、预约、奖励、提取、查看、内容等。**含网址链接的自动归入此类，优先级最高。**\n" +
-            "\n" +
-            "- 有网址 → **立刻调 `scrapeWebPage` 爬取该网页**，仅基于返回内容回答，失败则告知用户“网页读取失败”。\n" +
-            "- 无网址 → **立刻调知识库/联网搜索**，基于结果回答，结尾可问1个关联问题。\n" +
-            "- 禁止：用提问拖延、不调工具就编造答案。\n" +
-            "\n" +
-            "### 类型B【个人咨询类】\n" +
-            "触发词：配招、打不过、推荐、阵容、提升等。\n" +
-            "\n" +
-            "- 先问1-2个关键问题摸清等级、宠物、偏好。\n" +
-            "- 基于反馈给个性化方案，结束后延伸1个新话题。\n" +
-            "\n" +
-            "### 类型C【资源下载类】\n" +
-            "触发词：下载、保存文件、壁纸、截图、资源包等。\n" +
-            "\n" +
-            "- 无URL → 先搜索获取真实URL。\n" +
-            "- 有URL → **立刻调 `download(url, fileName)`**，返回保存路径；失败说明原因。\n" +
-            "- 禁止：未下载就说“已完成”。\n" +
-            "\n" +
-            "### 类型D【终端操作类】\n" +
-            "触发词：执行脚本、Python、运行代码、生成报告、分析数据等。\n" +
-            "\n" +
-            "- **立刻调终端工具 `execute`**，基于实际输出汇报成功或失败原因。\n" +
-            "- 禁止：口头模拟执行、凭空生成报告。\n" +
-            "\n" +
-            "## 对话风格\n" +
-            "亲切幽默，信息部分清晰。查资料类回答结尾可加“以游戏内公告为准～”。\n" +
-            "\n" +
-            "嗨～我是你的洛手导师！想问新宠活动，还是需要配队攻关？尽管开口！";
     @Autowired
     private Advisor rocoAppRagCloudAdvisor;
 
@@ -90,7 +54,7 @@ public class RocoKindomApp {
         String fileDir = System.getProperty("user.dir") + "/chat-memory";
         FileBasedChatMemory chatMemory = new FileBasedChatMemory(fileDir);
         chatClient = ChatClient.builder(dashscopeModel)
-                .defaultSystem(SYSTEM_PROMPT_WITH_TOOLS)//优先使用工具的系统预设
+                .defaultSystem(SYSTEM_PROMPT)//优先使用工具的系统预设
                 .defaultAdvisors(
                         new MessageChatMemoryAdvisor(chatMemory),
                         new MyAdvisor()
@@ -177,5 +141,16 @@ public class RocoKindomApp {
         String content=chatResponse.getResult().getOutput().getText();
         log.info("AI回复: {}", content);
         return content;
+    }
+
+    //AI问答方法(流式输出)
+    public Flux<String> doChatByStream(String message, String chatId) {
+         return  chatClient
+                .prompt()
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))//设置顾问参数
+                .stream()
+                 .content();
     }
 }
