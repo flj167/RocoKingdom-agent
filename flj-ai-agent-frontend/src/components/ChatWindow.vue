@@ -9,9 +9,11 @@ const props = withDefaults(
     endpointPath: string;
     includeChatId: boolean;
     splitAiChunks?: boolean;
+    aiAvatarUrl?: string;
   }>(),
   {
-    splitAiChunks: false
+    splitAiChunks: false,
+    aiAvatarUrl: ""
   }
 );
 
@@ -122,7 +124,10 @@ onBeforeUnmount(() => {
     </header>
     <section ref="messageListRef" class="message-list">
       <div v-for="item in messages" :key="item.id" class="message-row" :class="item.role">
-        <div v-if="item.role === 'ai'" class="avatar">AI</div>
+        <div v-if="item.role === 'ai'" class="avatar">
+          <img v-if="props.aiAvatarUrl" :src="props.aiAvatarUrl" alt="AI Avatar" class="avatar-img" />
+          <span v-else>AI</span>
+        </div>
         <div class="bubble">{{ item.content || (loading && item.role === 'ai' ? '...' : '') }}</div>
       </div>
     </section>

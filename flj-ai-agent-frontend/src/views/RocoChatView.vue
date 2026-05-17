@@ -10,6 +10,7 @@ import ChatWindow from "../components/ChatWindow.vue";
       title="洛克王国手游AI对话应用"
       endpoint-path="/ai/rocokindom_app/chat/sse/emitter"
       :include-chat-id="true"
+      ai-avatar-url="/static/avatars/roco-ai.webp"
     />
   </div>
 </template>

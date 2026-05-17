@@ -11,6 +11,7 @@ import ChatWindow from "../components/ChatWindow.vue";
       endpoint-path="/ai/manus/chat"
       :include-chat-id="false"
       :split-ai-chunks="true"
+      ai-avatar-url="/static/avatars/manus-ai.png"
     />
   </div>
 </template>
