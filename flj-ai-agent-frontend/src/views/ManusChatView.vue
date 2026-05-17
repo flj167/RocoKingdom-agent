@@ -7,7 +7,7 @@ import ChatWindow from "../components/ChatWindow.vue";
   <div class="view-page">
     <RouterLink class="back-link" to="/">Back</RouterLink>
     <ChatWindow
-      title="AI Manus Agent Chat"
+      title="洛克王国手游游戏攻略助手"
       endpoint-path="/ai/manus/chat"
       :include-chat-id="false"
       :split-ai-chunks="true"

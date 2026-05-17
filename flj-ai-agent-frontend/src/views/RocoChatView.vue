@@ -7,7 +7,7 @@ import ChatWindow from "../components/ChatWindow.vue";
   <div class="view-page">
     <RouterLink class="back-link" to="/">Back</RouterLink>
     <ChatWindow
-      title="AI RocoKingdom App Chat"
+      title="洛克王国手游AI对话应用"
       endpoint-path="/ai/rocokindom_app/chat/sse/emitter"
       :include-chat-id="true"
     />
