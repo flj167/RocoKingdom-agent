@@ -82,7 +82,7 @@ function sendMessage() {
         return;
       }
       if (props.splitAiChunks) {
-        pushMessage("ai", chunk);
+        pushMessage("ai", `${chunk}\n`);
         return;
       }
       appendAiChunk(aiMessageId, chunk);
@@ -122,6 +122,7 @@ onBeforeUnmount(() => {
     </header>
     <section ref="messageListRef" class="message-list">
       <div v-for="item in messages" :key="item.id" class="message-row" :class="item.role">
+        <div v-if="item.role === 'ai'" class="avatar">AI</div>
         <div class="bubble">{{ item.content || (loading && item.role === 'ai' ? '...' : '') }}</div>
       </div>
     </section>
