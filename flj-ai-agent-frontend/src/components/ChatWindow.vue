@@ -3,11 +3,17 @@ import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import type { ChatMessage } from "../types/chat";
 import { createSsePath, openSse } from "../services/sse";
 
-const props = defineProps<{
-  title: string;
-  endpointPath: string;
-  includeChatId: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    title: string;
+    endpointPath: string;
+    includeChatId: boolean;
+    splitAiChunks?: boolean;
+  }>(),
+  {
+    splitAiChunks: false
+  }
+);
 
 const messages = ref<ChatMessage[]>([]);
 const input = ref("");
@@ -66,12 +72,19 @@ function sendMessage() {
   pushMessage("user", message);
   input.value = "";
 
-  const aiMessageId = pushMessage("ai", "");
+  const aiMessageId = props.splitAiChunks ? "" : pushMessage("ai", "");
   const url = buildUrl(message);
   closeActiveSource();
 
   activeSource = openSse(url, {
     onMessage: (chunk) => {
+      if (!chunk) {
+        return;
+      }
+      if (props.splitAiChunks) {
+        pushMessage("ai", chunk);
+        return;
+      }
       appendAiChunk(aiMessageId, chunk);
     },
     onError: (errorMessage) => {
