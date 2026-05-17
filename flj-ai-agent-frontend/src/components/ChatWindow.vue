@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref, watch } from "vue";
+import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 import type { ChatMessage } from "../types/chat";
 import { createSsePath, openSse } from "../services/sse";
 
@@ -25,7 +25,7 @@ const messageListRef = ref<HTMLElement | null>(null);
 let activeSource: EventSource | null = null;
 
 const chatId = ref(generateChatId());
-const chatIdLabel = computed(() => `Chat ID: ${chatId.value}`);
+const chatIdLabel = `Chat ID: ${chatId.value}`;
 
 function generateChatId() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {

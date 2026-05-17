@@ -4,14 +4,16 @@ import ChatWindow from "../components/ChatWindow.vue";
 </script>
 
 <template>
-  <div class="view-page">
-    <RouterLink class="back-link" to="/">Back</RouterLink>
-    <ChatWindow
-      title="洛克王国手游游戏攻略助手"
-      endpoint-path="/ai/manus/chat"
-      :include-chat-id="false"
-      :split-ai-chunks="true"
-      ai-avatar-url="/static/avatars/manus-ai.png"
-    />
+  <div class="view-page manus-view-page">
+    <div class="chat-shell">
+      <RouterLink class="back-link" to="/">Back</RouterLink>
+      <ChatWindow
+        title="洛克王国手游游戏攻略助手"
+        endpoint-path="/ai/manus/chat"
+        :include-chat-id="false"
+        :split-ai-chunks="true"
+        ai-avatar-url="/static/avatars/manus-ai.png"
+      />
+    </div>
   </div>
 </template>
