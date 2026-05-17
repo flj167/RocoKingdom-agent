@@ -95,14 +95,124 @@ a {
   font-size: 46px;
   font-weight: 700;
   letter-spacing: 0.6px;
+  color: #153254;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.35);
 }
 
 .hero-subtitle {
   margin: 12px 0 0;
-  color: #111111;
+  color: #1f446d;
   max-width: 720px;
   font-size: 18px;
+  font-weight: 600;
   line-height: 1.7;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.25);
+}
+
+.home-tools {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.home-tool-btn {
+  border: 1px solid rgba(191, 212, 255, 0.95);
+  background: rgba(255, 255, 255, 0.88);
+  color: #214e9a;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+.home-tool-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.doc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(8, 19, 40, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.doc-modal {
+  width: min(980px, 100%);
+  max-height: min(88vh, 900px);
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  border: 1px solid #d7e5fb;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.doc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(237, 245, 255, 0.92);
+  border-bottom: 1px solid #dbe8fb;
+}
+
+.doc-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #1f3f6f;
+}
+
+.doc-close-btn {
+  border: 1px solid #c4d9f9;
+  background: #ffffff;
+  color: #2b5bab;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.doc-modal-content {
+  padding: 14px 16px 20px;
+  overflow-y: auto;
+}
+
+.doc-section + .doc-section {
+  margin-top: 18px;
+}
+
+.doc-section h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  color: #20467e;
+}
+
+.doc-section p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #2d3f58;
+}
+
+.doc-list {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.doc-list li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #2d3f58;
 }
 
 .app-links {
@@ -112,6 +222,26 @@ a {
   display: grid;
   grid-template-columns: repeat(2, minmax(240px, 1fr));
   gap: 20px;
+}
+
+.home-github-note {
+  position: absolute;
+  z-index: 1;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: calc(100% - 32px);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(237, 245, 255, 0.9);
+}
+
+.home-github-note a {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .app-card {
@@ -208,7 +338,7 @@ a {
 }
 
 .chat-header {
-  padding: 18px 20px;
+  padding: 10px 14px;
   border-bottom: 1px solid #e9eef6;
   background: rgba(255, 255, 255, 0.48);
   backdrop-filter: blur(4px);
@@ -217,14 +347,14 @@ a {
 
 .chat-header h1 {
   margin: 0;
-  font-size: 40px;
-  line-height: 1.25;
+  font-size: 26px;
+  line-height: 1.2;
 }
 
 .chat-id {
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--text-sub);
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .message-list {
@@ -361,8 +491,13 @@ a {
     font-size: 16px;
   }
 
+  .home-tools {
+    top: 14px;
+    right: 14px;
+  }
+
   .chat-header h1 {
-    font-size: 32px;
+    font-size: 22px;
   }
 
   .chat-id {
@@ -392,8 +527,24 @@ a {
     font-size: 15px;
   }
 
+  .home-github-note {
+    bottom: 10px;
+    font-size: 12px;
+    width: calc(100% - 20px);
+  }
+
   .hero-badge {
     font-size: 12px;
+  }
+
+  .home-tools {
+    position: static;
+    margin-bottom: 12px;
+  }
+
+  .home-tool-btn {
+    font-size: 12px;
+    padding: 6px 10px;
   }
 
   .home-page h1 {
@@ -406,6 +557,10 @@ a {
     margin-top: 8px;
   }
 
+  .doc-modal-header h2 {
+    font-size: 17px;
+  }
+
   .view-page {
     padding: 10px;
   }
@@ -416,15 +571,15 @@ a {
   }
 
   .chat-header {
-    padding: 14px;
+    padding: 8px 10px;
   }
 
   .chat-header h1 {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .chat-id {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .message-list {
@@ -469,7 +624,7 @@ a {
   }
 
   .chat-header h1 {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .message-row {
