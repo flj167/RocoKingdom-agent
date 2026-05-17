@@ -145,11 +145,14 @@ public class RocoKindomApp {
 
     //AI问答方法(流式输出)
     public Flux<String> doChatByStream(String message, String chatId) {
+        //使用查询重写器
+        String rewritedMessage = queryRewriter.doQueryRewrite(message);
          return  chatClient
                 .prompt()
-                .user(message)
+                .user(rewritedMessage)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))//设置顾问参数
+                 .tools(allTools)//添加工具
                 .stream()
                  .content();
     }

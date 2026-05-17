@@ -19,7 +19,7 @@ const router = createRouter({
       component: HomeView,
       meta: {
         seo: {
-          title: "洛克王国手游AI应用首页",
+          title: "洛克王国-世界游戏助手-FLJ",
           description: "洛克王国手游AI应用入口，包含AI对话应用与超级智能体攻略助手，支持实时流式问答。",
           keywords: "洛克王国,AI对话,游戏攻略,智能体,手游助手",
           path: "/"

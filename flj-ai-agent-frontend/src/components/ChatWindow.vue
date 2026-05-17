@@ -135,6 +135,10 @@ onBeforeUnmount(() => {
       <input v-model="input" type="text" placeholder="Type your message..." @keydown.enter="sendMessage" />
       <button :disabled="loading" @click="sendMessage">Send</button>
     </footer>
+    <div v-if="loading" class="thinking-bar">
+      <span class="thinking-spinner" />
+      <span>亲爱的小洛克，请你等待一下，让我仔细思考思考......</span>
+    </div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
