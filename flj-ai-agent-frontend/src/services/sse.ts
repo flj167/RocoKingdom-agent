@@ -16,13 +16,15 @@ export function createSsePath(path: string, params: Record<string, string>): str
 
 export function openSse(url: string, handlers: SseHandlers): EventSource {
   const source = new EventSource(url);
+  let hasReceivedChunk = false;
 
   source.onmessage = (event: MessageEvent) => {
+    hasReceivedChunk = true;
     handlers.onMessage(event.data ?? "");
   };
 
   source.onerror = () => {
-    if (source.readyState === EventSource.CLOSED) {
+    if (source.readyState === EventSource.CLOSED || hasReceivedChunk) {
       handlers.onDone();
       source.close();
       return;
