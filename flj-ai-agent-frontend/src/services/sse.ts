@@ -1,4 +1,6 @@
-const API_BASE = "http://localhost:8123/api";
+import { API_BASE_URL } from "./apiBase";
+
+const API_BASE = API_BASE_URL;
 
 export interface SseHandlers {
   onMessage: (chunk: string) => void;
@@ -7,7 +9,12 @@ export interface SseHandlers {
 }
 
 export function createSsePath(path: string, params: Record<string, string>): string {
-  const url = new URL(`${API_BASE}${path}`);
+  const normalizedBase = API_BASE.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const fullPath = `${normalizedBase}${normalizedPath}`;
+  const url = API_BASE.startsWith("http")
+    ? new URL(fullPath)
+    : new URL(fullPath, window.location.origin);
   Object.entries(params).forEach(([key, value]) => {
     url.searchParams.set(key, value);
   });

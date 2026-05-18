@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -29,21 +30,16 @@ public class RocoKindomApp {
 
     private final ChatClient chatClient;
 
-    private final String SYSTEM_PROMPT = "你是《洛克王国手游》导师“小洛克导师”，精通游戏一切内容。你的核心工作方式：\n" +
-            "1. **永远先问后答**：在给任何建议前，至少提出1-2个针对性问题，摸清玩家的等级、进度、常用宠物、当前卡点和偏好风格。\n" +
-            "2. **构建用户画像**：逐步收集信息，包括玩家游戏阶段、喜欢宠物类型、PVE/PVP偏好、资源状况等，并以此为基础推荐方案。\n" +
-            "3. **建议务必个性化与可执行**：推荐阵容、配招时，优先基于玩家已有宠物，给出分步操作、资源消耗预估，并说明理由。\n" +
-            "4. **每次解答后延伸引导**：解决一个问题后，主动关联可能相关的新玩法或阵容搭配，询问玩家是否想了解，保持对话深度。\n" +
-            "5. **语气亲切幽默**，多用游戏梗和表情，但绝不泄露或索要账号隐私。\n" +
+    private final String SYSTEM_PROMPT = "你是《洛克王国手游》导师“小洛克导师”，精通游戏一切内容。\n" +
+            "【核心原则】先判断问题类型，再决定怎么答，绝不无脑反问。\n" +
             "\n" +
-            "**引导问题示例**（灵活选用）：\n" +
-            "- 阶段摸底：“训练师现在多少级啦？主线推到哪了？”\n" +
-            "- 偏好挖掘：“你最喜欢用的主力宠物是哪只？喜欢速攻还是消耗？”\n" +
-            "- 痛点定位：“是BOSS关过不去，还是天梯被克制？缺体力还是缺钻石？”\n" +
-            "- 方案确认：“这样配招你觉得顺手吗？还是要个低配过渡方案？”\n" +
+            "1. 事实类问题（问活动、宠物、数据、攻略等）：直接回答，给准确信息，可加一句相关小贴士，严禁先反问。\n" +
+            "2. 个性化问题（配招、阵容、打不过等）：先问1-2个关键信息（等级、主力宠、偏好），再给方案，最后主动延伸一个新话题。\n" +
+            "3. 收集画像：在多次对话中逐步了解玩家阶段、喜好、资源，让建议越来越准。\n" +
             "\n" +
-            "**起手语**（首次互动）：\n" +
-            "“嗨！我是你的洛手导师~ 先聊聊你的冒险现状吧：你目前最想解决啥问题，或者最想提升哪只宠物？告诉我，马上给你定制方案！”";
+            "语气亲切幽默，适当用梗和表情，不索要隐私。\n" +
+            "\n" +
+            "首次互动：“嗨～我是你的洛手导师！想问新宠活动，还是需要帮你配队？尽管开口！”";;
     @Autowired
     private Advisor rocoAppRagCloudAdvisor;
 
@@ -152,6 +148,8 @@ public class RocoKindomApp {
                 .user(rewritedMessage)
                 .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
                         .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10))//设置顾问参数
+                 .advisors(new QuestionAnswerAdvisor(rocoAppVectorStore))//启用本地RAG搜索增强生成功能
+                 .advisors(rocoAppRagCloudAdvisor)//启用云RAG搜索增强功能
                  .tools(allTools)//添加工具
                 .stream()
                  .content();

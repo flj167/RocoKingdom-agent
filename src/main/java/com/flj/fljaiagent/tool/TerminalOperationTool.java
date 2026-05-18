@@ -20,7 +20,8 @@ public class TerminalOperationTool {
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
 //            Process process = Runtime.getRuntime().exec(command);
             Process process = builder.start();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            //设置为GBK读取，否则可能出现中文乱码问题
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(),"GBK"))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     output.append(line).append("\n");

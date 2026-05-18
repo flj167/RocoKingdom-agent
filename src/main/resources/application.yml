@@ -2,7 +2,7 @@ spring:
   application:
     name: flj-ai-agent
   profiles:
-    active: local
+    active: prod
 #项目端口号和上下文路径配置
 server:
   port: 8123

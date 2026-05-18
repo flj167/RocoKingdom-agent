@@ -3,10 +3,19 @@ application-local.yml
 application-see.yml
 application-stdio.yml
 application.yml
+application-prod.yml
+
+### 前端依赖库 ###
+flj-ai-agent-frontend/dist/
+flj-ai-agent-frontend/*.zip
+node_modules/
 ### AI本地聊天记录 ,工具调用生成文档###
+chat-memory/
 tmp/chat-memory/
 tmp/file/
+tmp/*
 
+*~
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
@@ -41,3 +50,4 @@ build/
 ### VS Code ###
 .vscode/
 chat-momery/
+flj-ai-agent.zip
