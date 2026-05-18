@@ -104,7 +104,7 @@ RocoKingdom-agent/
 ### 2) 启动后端
 
 ```bash
-cd /home/runner/work/RocoKingdom-agent/RocoKingdom-agent
+cd RocoKingdom-agent
 mvn clean install -DskipTests
 mvn spring-boot:run
 ```
@@ -118,7 +118,7 @@ mvn spring-boot:run
 ### 3) 启动前端
 
 ```bash
-cd /home/runner/work/RocoKingdom-agent/RocoKingdom-agent/flj-ai-agent-frontend
+cd flj-ai-agent-frontend
 npm install
 npm run dev
 ```
