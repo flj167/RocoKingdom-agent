@@ -147,7 +147,7 @@ curl "http://localhost:8123/api/ai/rocokindom_app/chat/sse?message=怎么抓稀�
 
 ## 📄 开源协议
 
-当前仓库暂未提供 `LICENSE` 文件；建议补充后再对外声明最终开源协议。
+本项目采用 **MIT License** 开源，详见 [LICENSE](./LICENSE)。
 
 ---
 
