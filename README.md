@@ -26,6 +26,13 @@
 - 📖 **Knife4j 文档**：便于接口调试与二次开发
 
 ---
+## 📐 系统架构
+
+<img width="2038" height="1754" alt="高清架构图" src="https://github.com/user-attachments/assets/6742eb47-8c46-4a29-952b-199d3e57879c" />
+<img width="1124" height="1502" alt="高清ETL+RAG" src="https://github.com/user-attachments/assets/478aa6fc-7174-4df4-8592-d9a3ac0fbf6f" />
+
+
+> 上图展示了“洛克王国手游 AI 助手”的完整技术架构：用户通过前端界面发起对话或任务，经由 Spring Boot 后端服务进行意图识别与路由，最终由 **RAG 知识库**、**ReAct 智能体** 及 **MCP 扩展服务** 协同处理，并通过 Tool Calling 调用外部工具完成复杂操作。
 
 ## 🧱 技术栈
 
