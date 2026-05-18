@@ -103,8 +103,9 @@ RocoKingdom-agent/
 
 ### 2) 启动后端
 
+在项目根目录执行：
+
 ```bash
-cd RocoKingdom-agent
 mvn clean install -DskipTests
 mvn spring-boot:run
 ```
@@ -146,7 +147,7 @@ curl "http://localhost:8123/api/ai/rocokindom_app/chat/sse?message=怎么抓稀�
 
 ## 📄 开源协议
 
-本项目采用 **MIT** 协议开源（如仓库后续补充 LICENSE，请以实际文件为准）。
+当前仓库暂未提供 `LICENSE` 文件；建议补充后再对外声明最终开源协议。
 
 ---
 
