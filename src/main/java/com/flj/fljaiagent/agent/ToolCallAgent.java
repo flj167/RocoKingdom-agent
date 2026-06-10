@@ -17,6 +17,8 @@ import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.model.tool.ToolExecutionResult;
 import org.springframework.ai.tool.ToolCallback;
 
+import com.flj.fljaiagent.util.MarkdownUtil;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,6 +72,7 @@ public class ToolCallAgent extends ReActAgent {
             AssistantMessage assistantMessage = chatResponse.getResult().getOutput();
             //解析调用结果，获取要使用的工具列表
             String result = assistantMessage.getText();
+            setLastAssistantText(result);//保存最近一次LLM回复的文本
             List<AssistantMessage.ToolCall> toolCallList = assistantMessage.getToolCalls();//要使用的工具列表
             //打印工具信息
             log.info(getName()+"的思考："+result);
@@ -119,6 +122,8 @@ public class ToolCallAgent extends ReActAgent {
         //如果执行了终止方法
         if(terminateToolCalled){
             setState(AgentState.FINISHED);//已完成
+            log.info(results);
+            return MarkdownUtil.toHtml(getLastAssistantText());//输出LLM的收尾语而非工具结果
         }
         log.info(results);
         return results;

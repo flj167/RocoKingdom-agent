@@ -37,6 +37,8 @@ public abstract class BaseAgent {
     private ChatClient chatClient;
     //ChatMemory
     private List<Message> messageList=new ArrayList<>();
+    //最近一次LLM回复的文本
+    private String lastAssistantText;
 
     /**
      * 执行代理的主循环

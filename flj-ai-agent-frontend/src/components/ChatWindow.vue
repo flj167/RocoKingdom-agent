@@ -22,6 +22,7 @@ const input = ref("");
 const loading = ref(false);
 const error = ref("");
 const messageListRef = ref<HTMLElement | null>(null);
+const textareaRef = ref<HTMLTextAreaElement | null>(null);
 let activeSource: EventSource | null = null;
 
 const chatId = ref(generateChatId());
@@ -63,6 +64,33 @@ function buildUrl(message: string) {
   return createSsePath(props.endpointPath, params);
 }
 
+function autoResize() {
+  const el = textareaRef.value;
+  if (!el) return;
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
+}
+
+function onEnterKey(e: KeyboardEvent) {
+  if (e.shiftKey) return; // Shift+Enter for newline
+  e.preventDefault();
+  sendMessage();
+}
+
+function onButtonClick(e: MouseEvent) {
+  const btn = e.currentTarget as HTMLElement;
+  const ripple = document.createElement("span");
+  ripple.className = "ripple";
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + "px";
+  ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+  ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
+  btn.appendChild(ripple);
+  ripple.addEventListener("animationend", () => ripple.remove());
+  sendMessage();
+}
+
 function sendMessage() {
   const message = input.value.trim();
   if (!message || loading.value) {
@@ -73,6 +101,7 @@ function sendMessage() {
   loading.value = true;
   pushMessage("user", message);
   input.value = "";
+  nextTick(() => autoResize());
 
   const aiMessageId = props.splitAiChunks ? "" : pushMessage("ai", "");
   const url = buildUrl(message);
@@ -128,16 +157,26 @@ onBeforeUnmount(() => {
           <img v-if="props.aiAvatarUrl" :src="props.aiAvatarUrl" alt="AI Avatar" class="avatar-img" />
           <span v-else>AI</span>
         </div>
-        <div class="bubble">{{ item.content || (loading && item.role === 'ai' ? '...' : '') }}</div>
+        <div class="bubble" v-html="item.content || (loading && item.role === 'ai' ? '...' : '')"></div>
       </div>
     </section>
     <footer class="chat-input">
-      <input v-model="input" type="text" placeholder="Type your message..." @keydown.enter="sendMessage" />
-      <button :disabled="loading" @click="sendMessage">Send</button>
+      <textarea
+        ref="textareaRef"
+        v-model="input"
+        rows="1"
+        placeholder="Type your message..."
+        @keydown.enter="onEnterKey"
+        @input="autoResize"
+      ></textarea>
+      <button :disabled="loading" @click="onButtonClick">Send</button>
     </footer>
     <div v-if="loading" class="thinking-bar">
       <span class="thinking-spinner" />
-      <span>亲爱的小洛克，请你等待一下，让我仔细思考思考......</span>
+      <span>亲爱的小洛克，请你等待一下，让我仔细思考思考</span>
+      <span class="thinking-dots">
+        <span></span><span></span><span></span>
+      </span>
     </div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>

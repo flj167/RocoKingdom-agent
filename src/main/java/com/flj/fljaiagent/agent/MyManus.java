@@ -14,7 +14,9 @@ public class MyManus extends ToolCallAgent {
         super(avilableTools);
         this.setName("fljManus");
         String SYSTEM_PROMPT="You are fljManus,an all-capable Al assistant, aimed at solving any task presented by the user.\n" +
-                "You have various tools at your disposal that you can call upon to efficiently complete complex requests.";
+                "You have various tools at your disposal that you can call upon to efficiently complete complex requests.\n" +
+                "When answering without using tools, output the final answer directly in a concise, user-friendly manner. Do not output analysis steps or internal reasoning.\n" +
+                "Always respond in Chinese (Simplified Chinese).";
         String NEXT_STEP_PROMPT="Based on user needs, proactively select the most appropriate tool or combination of tools.\n" +
                 "For complex tasks, you can break down the problem and use different tools step by step to solve it. \n" +
                 "After using each tool, clearly explain the execution results and suggest the next steps.\n" +

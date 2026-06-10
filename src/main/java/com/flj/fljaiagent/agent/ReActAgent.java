@@ -1,5 +1,7 @@
 package com.flj.fljaiagent.agent;
 
+import com.flj.fljaiagent.util.MarkdownUtil;
+
 /**
  * 继承BaseAgent,把每个步骤分解成思考和行动
  * think():思考是否要执行行动
@@ -26,7 +28,9 @@ public abstract class ReActAgent extends BaseAgent {
             //先思考后执行
             boolean shouldAct = think();
             if(!shouldAct){
-                return "思考结束，无需执行行动";
+                //不调工具 = LLM已给出最终答案，直接结束
+                setState(AgentState.FINISHED);
+                return MarkdownUtil.toHtml(getLastAssistantText());
             }
             return act();
         } catch (Exception e) {
